@@ -1,18 +1,40 @@
 <template>
-  <div class="home">
-    <img alt="Vue logo" src="../assets/logo.png" />
-    <HelloWorld msg="Welcome to Your Vue.js App" />
-  </div>
+  <q-page class="q-pa-md q-gutter-md">
+    <div class="text-h6 text-center q-mb-lg">Home</div>
+  </q-page>
 </template>
 
 <script>
-// @ is an alias to /src
-import HelloWorld from "@/components/HelloWorld.vue";
+import { computed } from "vue";
+import { useStore } from "vuex";
 
 export default {
-  name: "Home",
-  components: {
-    HelloWorld,
+  name: "Login",
+  components: {},
+  data() {
+    if (this.token === "") {
+      this.$router.push({ path: "login" });
+    }
+    return {};
+  },
+  setup() {
+    const $store = useStore();
+
+    const token = computed({
+      get: () => $store.state.token,
+      set: (val) => {
+        $store.commit("setToken", val);
+      },
+    });
+
+    return {
+      token,
+    };
   },
 };
 </script>
+<style lang="sass">
+.login-wrapper
+  width: 90%
+  margin: auto
+</style>
