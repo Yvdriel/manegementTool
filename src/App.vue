@@ -12,7 +12,7 @@
       <q-toolbar>
         <!--        <q-toolbar-title>-->
         <div class="text-caption" style="margin: auto">
-          Copyright © 2021 - 2021 Yoran van Driel
+          Copyright © 2021 - {{ new Date().getFullYear() }} Yoran van Driel
         </div>
         <!--        </q-toolbar-title>-->
       </q-toolbar>
@@ -22,7 +22,8 @@
 
 <script>
 import { ref } from "vue";
-import { useQuasar } from "quasar";
+// import { useQuasar } from "quasar";
+import axios from "axios";
 
 export default {
   name: "LayoutDefault",
@@ -30,8 +31,8 @@ export default {
   components: {},
 
   setup() {
-    const $q = useQuasar();
-    console.log($q.platform.is.desktop);
+    // const $q = useQuasar();
+    // console.log($q.platform.is.desktop);
     return {
       leftDrawerOpen: ref(false),
     };
@@ -40,6 +41,20 @@ export default {
     currentRouteName() {
       return this.$route.name;
     },
+  },
+
+  created: function () {
+    axios.interceptors.response.use(undefined, function (err) {
+      // eslint-disable-next-line no-unused-vars
+      return new Promise(function (resolve, reject) {
+        if (err.status === 401 && err.config && !err.config.__isRetryRequest) {
+          // if you ever get an unauthorized, logout the user
+          this.$store.dispatch("AUTH_LOGOUT");
+          // you can also redirect to /login if needed !
+        }
+        throw err;
+      });
+    });
   },
 };
 </script>

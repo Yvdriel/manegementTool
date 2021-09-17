@@ -1,5 +1,5 @@
 <template>
-  <q-card :flat="!$q.platform.is.desktop" class="q-pa-lg" :class="loginWrapper">
+  <q-card :flat="$q.platform.is.desktop" class="q-pa-lg items-center" :class="loginWrapper">
     <q-form ref="loginForm" @submit.prevent="login" class="q-gutter-md">
       <div class="text-h5 text-center q-mb-xl q-mt-lg">Login</div>
       <q-input
@@ -50,9 +50,9 @@ export default {
     const loading = ref(false);
 
     let loginWrapper = ref("login-wrapper");
-    if ($q.platform.is.desktop) {
-      loginWrapper = ref("login-wrapper-desktop");
-    }
+    // if ($q.platform.is.desktop) {
+    //   loginWrapper = ref("login-wrapper-desktop");
+    // }
     return {
       loading,
       platform: ref($q.platform.is),
@@ -74,7 +74,11 @@ export default {
           password: this.password,
         })
         .then(() => {
+          console.log("yoranyoran");
           this.$router.push("/");
+        })
+        .catch((e) => {
+          console.log(e);
         });
       setTimeout(() => {
         this.$router.push({ path: "/login" });
@@ -88,6 +92,7 @@ export default {
 .login-wrapper
   width: 90%
   margin: auto
+  align-self: center
 .login-wrapper-desktop
   min-width: 25%
   max-width: 400px
