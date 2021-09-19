@@ -1,8 +1,11 @@
 <template>
   <q-layout view="lHh Lpr lff">
-    <q-header elevated v-if="currentRouteName != 'Login'">
+    <q-header class="bg-white text-black q-px-md q-py-md">
       <q-toolbar>
-        <q-toolbar-title> Management Tool </q-toolbar-title>
+        <div class="row justify-between">
+          <q-toolbar-title class="col text-weight-bold">Hallo, <br> Tycho Prins</q-toolbar-title>
+          <q-toolbar-title class="col-4 text-weight-bold">Hallo, <br> Tycho Prins</q-toolbar-title>
+        </div>
       </q-toolbar>
     </q-header>
     <q-page-container>
@@ -37,11 +40,7 @@ export default {
       leftDrawerOpen: ref(false),
     };
   },
-  computed: {
-    currentRouteName() {
-      return this.$route.name;
-    },
-  },
+  computed: {},
 
   created: function () {
     axios.interceptors.response.use(undefined, function (err) {

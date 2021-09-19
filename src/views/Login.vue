@@ -76,6 +76,7 @@ export default {
         .then(() => {
           console.log("yoranyoran");
           this.$router.push("/");
+          window.location.reload();
         })
         .catch((e) => {
           console.log(e);
