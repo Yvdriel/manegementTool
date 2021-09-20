@@ -1,5 +1,8 @@
 <template>
-  <q-page class="q-pa-lg q-gutter-md">
+  <q-page
+      class="q-pa-lg q-gutter-md"
+      v-touch-swipe="swipePage"
+  >
     <div class="q-mb-lg">
       <q-tabs
           v-model="tab"
@@ -16,40 +19,8 @@
       <q-separator />
       <q-tab-panels v-model="tab" animated>
         <q-tab-panel name="overview">
-          <q-card class="my-card" bordered>
-            <q-card-section horizontal>
-              <q-card-section class="q-pt-xs">
-                <div class="text-overline text-weight-bolder">Eerstvolgende Dienst</div>
-
-                <q-separator></q-separator>
-
-                <div class="text-subtitle1 q-mt-sm q-mb-xs">Prins Albertlaan 15, 2271 EK Voorburg</div>
-                <div class="text-overline">
-                  <q-icon name="schedule" size="xs"/>
-                  12:00 - 21:30
-                </div>
-                <div class="col-auto text-grey text-caption q-pt-md row no-wrap items-center">
-                  <q-icon name="place" />
-                  250 km
-
-                  <q-space></q-space>
-
-                  <q-icon name="euro" />
-                  23,12-
-                </div>
-              </q-card-section>
-            </q-card-section>
-          </q-card>
-          <q-card class="my-card q-mt-md" bordered>
-            <q-card-section horizontal>
-              <q-card-section class="q-pt-xs">
-                <div class="text-overline text-weight-bolder">Kalender</div>
-
-                <q-separator></q-separator>
-                <v-calendar></v-calendar>
-              </q-card-section>
-            </q-card-section>
-          </q-card>
+          <NextShift />
+          <Calendar />
         </q-tab-panel>
 
         <q-tab-panel name="productivity">
@@ -65,10 +36,15 @@
 import { ref } from "vue";
 import { computed } from "vue";
 import { useStore } from "vuex";
+import Calendar from "../components/Calendar";
+import NextShift from "../components/NextShift";
 
 export default {
   name: "Login",
-  components: {},
+  components: {
+    NextShift,
+    Calendar
+  },
   data() {
     if (this.token === "") {
       this.$router.push({ path: "login" });
@@ -91,6 +67,20 @@ export default {
       token,
     };
   },
+  methods: {
+    swipePage(obj) {
+      switch (obj.direction) {
+        case 'right':
+          this.tab = "overview";
+          break;
+        case 'left':
+          this.tab = "productivity";
+          break;
+        default:
+          return;
+      }
+    }
+  }
 };
 </script>
 <style lang="sass">
