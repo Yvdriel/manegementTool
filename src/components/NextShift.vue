@@ -7,6 +7,9 @@
 
       <div class="text-subtitle1 q-mt-sm q-mb-xs">Prins Albertlaan 15, 2271 EK Voorburg</div>
       <div class="text-overline">
+        <q-icon name="event" size="xs"/>
+        20 Sep 2021
+        <q-space></q-space>
         <q-icon name="schedule" size="xs"/>
         12:00 - 21:30
       </div>

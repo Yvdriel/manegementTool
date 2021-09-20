@@ -12,8 +12,8 @@
           class="text-grey-5"
           align="justify"
       >
-        <q-tab :ripple="false" name="overview" label="Overview" />
-        <q-tab :ripple="false" name="productivity" label="Productivity" />
+        <q-tab :ripple="false" name="overview" label="Overzicht" />
+        <q-tab :ripple="false" name="productivity" label="Productiviteit" />
       </q-tabs>
       <q-separator />
       <q-tab-panels v-model="tab" animated>
@@ -23,8 +23,7 @@
         </q-tab-panel>
 
         <q-tab-panel name="productivity">
-          <div class="text-h6">Alarms</div>
-          Lorem ipsum dolor sit amet consectetur adipisicing elit.
+          <WorkedHours/>
         </q-tab-panel>
       </q-tab-panels>
     </div>
@@ -37,10 +36,12 @@ import { computed } from "vue";
 import { useStore } from "vuex";
 import Calendar from "../components/Calendar";
 import NextShift from "../components/NextShift";
+import WorkedHours from "../components/WorkedHours";
 
 export default {
   name: "Login",
   components: {
+    WorkedHours,
     NextShift,
     Calendar
   },
