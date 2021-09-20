@@ -1,7 +1,6 @@
 <template>
   <q-page
       class="q-pa-lg q-gutter-md"
-      v-touch-swipe.horizontal="swipePage"
   >
     <div class="q-mb-lg">
       <q-tabs
