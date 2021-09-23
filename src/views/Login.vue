@@ -1,5 +1,9 @@
 <template>
-  <q-card :flat="$q.platform.is.desktop" class="q-pa-lg items-center" :class="loginWrapper">
+  <q-card
+    :flat="$q.platform.is.desktop"
+    class="q-pa-lg items-center"
+    :class="loginWrapper"
+  >
     <q-form ref="loginForm" @submit.prevent="login" class="q-gutter-md">
       <div class="text-h5 text-center q-mb-xl q-mt-lg">Login</div>
       <q-input
@@ -75,16 +79,13 @@ export default {
         })
         .then(() => {
           console.log("yoranyoran");
-          this.$router.push("/");
-          window.location.reload();
+          setTimeout(() => {
+            this.$router.push("/");
+          }, 5000);
         })
         .catch((e) => {
           console.log(e);
         });
-      setTimeout(() => {
-        this.$router.push({ path: "/login" });
-        this.loading = false;
-      }, 3000);
     },
   },
 };

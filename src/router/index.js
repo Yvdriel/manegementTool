@@ -18,6 +18,14 @@ const noRequireAuth = (to, from, next) => {
   next("/");
 };
 
+const logout = (to, from, next) => {
+  store.dispatch("AUTH_LOGOUT", {}).then(() => {
+    setTimeout(() => {
+      next("/login");
+    }, 1000);
+  });
+};
+
 const routes = [
   {
     path: "/",
@@ -34,6 +42,11 @@ const routes = [
     // which is lazy-loaded when the route is visited.
     component: () =>
       import(/* webpackChunkName: "about" */ "../views/About.vue"),
+  },
+  {
+    path: "/logout",
+    name: "logout",
+    beforeEnter: logout,
   },
   {
     path: "/login",
