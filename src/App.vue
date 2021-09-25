@@ -1,10 +1,10 @@
 <template>
   <q-layout view="lhh Lpr lff">
-    <q-header class="bg-white text-black q-px-md q-py-md">
+    <q-header v-if="isAuthenticated" class="bg-white text-black q-px-md q-py-md">
       <q-toolbar>
         <div class="row justify-between">
-          <q-toolbar-title class="col text-weight-bold">Hallo, <br> Tycho Prins</q-toolbar-title>
-          <q-toolbar-title class="col-4 text-weight-bold">Hallo, <br> Tycho Prins</q-toolbar-title>
+          <q-toolbar-title class="col text-weight-bold">Hallo, <br> {{ fullname }}</q-toolbar-title>
+          <q-toolbar-title class="col-4 text-weight-bold"></q-toolbar-title>
         </div>
       </q-toolbar>
     </q-header>
@@ -27,6 +27,7 @@
 import { ref } from "vue";
 // import { useQuasar } from "quasar";
 import axios from "axios";
+import store from "./store";
 
 export default {
   name: "LayoutDefault",
@@ -37,10 +38,20 @@ export default {
     // const $q = useQuasar();
     // console.log($q.platform.is.desktop);
     return {
-      leftDrawerOpen: ref(false),
+      leftDrawerOpen: ref(false)
     };
   },
-  computed: {},
+  computed: {
+    isAuthenticated() {
+      return store.getters.isAuthenticated;
+    },
+    fullname() {
+      let firstname = store.getters.user.firstname;
+      let lastname = store.getters.user.lastname;
+
+      return firstname + " " + lastname;
+    }
+  },
 
   created: function () {
     axios.interceptors.response.use(undefined, function (err) {

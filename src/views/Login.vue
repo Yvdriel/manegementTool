@@ -4,7 +4,7 @@
     class="q-pa-lg items-center"
     :class="loginWrapper"
   >
-    <q-form ref="loginForm" @submit.prevent="login" class="q-gutter-md">
+    <q-form ref="loginForm" @submit="login" class="q-gutter-md">
       <div class="text-h5 text-center q-mb-xl q-mt-lg">Login</div>
       <q-input
         class="q-mt-md"
@@ -12,6 +12,7 @@
         outlined
         type="email"
         label="Email"
+        :rules="[ val => val && val.length > 0 || 'Geen email']"
       />
       <q-input
         class="q-my-md"
@@ -19,6 +20,7 @@
         outlined
         :type="isPwd ? 'password' : 'text'"
         label="Password"
+        :rules="[ val => val && val.length > 0 || 'Geen wachtwoord']"
       >
         <template v-slot:append>
           <q-icon
@@ -64,6 +66,12 @@ export default {
       isPwd: ref(true),
       email: ref(""),
       loginWrapper,
+      triggerNegative () {
+        $q.notify({
+          type: 'negative',
+          message: 'Verkeerde Wachtwoord of Email'
+        })
+      },
     };
   },
   methods: {
@@ -78,13 +86,11 @@ export default {
           password: this.password,
         })
         .then(() => {
-          console.log("yoranyoran");
-          setTimeout(() => {
-            this.$router.push("/");
-          }, 5000);
+          this.$router.push("/");
         })
-        .catch((e) => {
-          console.log(e);
+        .catch(() => {
+          this.triggerNegative();
+          this.loading = false;
         });
     },
   },

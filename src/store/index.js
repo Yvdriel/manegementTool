@@ -5,17 +5,22 @@ import axios from "axios";
 export default createStore({
   state: {
     token: localStorage.getItem("user-token") || "",
+    user: JSON.parse(localStorage.getItem("user")) || {},
     state: "",
   },
   mutations: {
     AUTH_REQUEST: (state) => {
       state.status = "loading";
     },
-    AUTH_SUCCESS: (state, token) => {
+    AUTH_SUCCESS: (state, {token, user}) => {
+      console.log(user);
+      console.log(token);
       state.status = "success";
       state.token = token;
+      state.user = user;
     },
     AUTH_LOGOUT: (state) => {
+      localStorage.removeItem("user-token");
       state.status = "logged_out";
       state.token = "";
     },
@@ -42,15 +47,19 @@ export default createStore({
         ApiService()
           .post("login", user)
           .then((resp) => {
+            console.log(resp.data);
             const token = resp.data.token;
+            const user = resp.data.user;
             localStorage.setItem("user-token", token); // store the token in localstorage
-            commit("AUTH_SUCCESS", token);
+            localStorage.setItem("user", JSON.stringify(user)); // store the user in localstorage
+            commit("AUTH_SUCCESS", {token, user});
             // you have your token, now log in your user :)
             axios.defaults.headers.common = {'Authorization': `Bearer ${token}`}
             dispatch("USER_REQUEST");
             resolve(resp);
           })
           .catch((err) => {
+            console.log(err);
             commit("AUTH_ERROR", err);
             localStorage.removeItem("user-token"); // if the request fails, remove any possible user token if possible
             reject(err);
@@ -78,6 +87,7 @@ export default createStore({
   getters: {
     isAuthenticated: (state) => !!state.token,
     authStatus: (state) => state.status,
+    user: (state) => state.user,
     token(state) {
       return state.token;
     },
