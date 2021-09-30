@@ -1,30 +1,35 @@
 <template>
-  <q-page
-      class="q-pa-lg q-gutter-md"
-  >
+  <q-page class="q-pa-lg q-gutter-md">
     <div class="q-mb-lg">
       <q-tabs
-          v-model="tab"
-          no-caps
-          dense
-          indicator-color="primary"
-          active-color="black"
-          class="text-grey-5"
-          align="justify"
+        v-model="tab"
+        no-caps
+        dense
+        indicator-color="primary"
+        active-color="black"
+        class="text-grey-5"
+        align="justify"
       >
         <q-tab :ripple="false" name="overview" label="Overzicht" />
         <q-tab :ripple="false" name="productivity" label="Productiviteit" />
+        <q-tab :ripple="false" name="shifts" label="Open Diensten">
+          <q-badge color="red" floating>2</q-badge>
+        </q-tab>
       </q-tabs>
       <q-separator />
-      <q-tab-panels v-model="tab" animated>
+      <q-tab-panels v-model="tab" animated swipeable infinite
+                    transition-prev="fade"
+                    transition-next="fade">
         <q-tab-panel name="overview">
           <NextShift />
-          <Calendar />
+          <OpenShiftsCard :tab="tab" @update:tab="tab = $event" />
+          <Calendar :visible="visible" />
         </q-tab-panel>
 
         <q-tab-panel name="productivity">
-          <WorkedHours/>
+          <WorkedHours />
         </q-tab-panel>
+        <q-tab-panel name="shifts"> </q-tab-panel>
       </q-tab-panels>
     </div>
   </q-page>
@@ -37,24 +42,20 @@ import { useStore } from "vuex";
 import Calendar from "../components/Calendar";
 import NextShift from "../components/NextShift";
 import WorkedHours from "../components/WorkedHours";
+import OpenShiftsCard from "../components/OpenShiftsCard";
 
 export default {
   name: "Login",
   components: {
+    OpenShiftsCard,
     WorkedHours,
     NextShift,
-    Calendar
-  },
-  data() {
-    if (this.token === "") {
-      this.$router.push({ path: "login" });
-    }
-    return {
-      tab: ref('overview'),
-    };
+    Calendar,
   },
   setup() {
     const $store = useStore();
+    const visible = ref(true);
+    const tab = ref("overview");
 
     const token = computed({
       get: () => $store.state.token,
@@ -65,22 +66,41 @@ export default {
 
     return {
       token,
+      tab,
+      visible,
     };
+  },
+  watch: {
+    tab: {
+      // eslint-disable-next-line no-unused-vars
+      handler(val, oldVal) {
+        if (val != "overview") {
+          this.visible = false;
+          return;
+        }
+
+        setTimeout(() => {
+          this.visible = true;
+        }, 300);
+        // console.log(oldVal);
+      },
+      deep: true,
+    },
   },
   methods: {
     swipePage(obj) {
       switch (obj.direction) {
-        case 'right':
+        case "right":
           this.tab = "overview";
           break;
-        case 'left':
+        case "left":
           this.tab = "productivity";
           break;
         default:
           return;
       }
-    }
-  }
+    },
+  },
 };
 </script>
 <style lang="sass">

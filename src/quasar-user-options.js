@@ -8,9 +8,11 @@ import { Notify } from "quasar";
 // To be used on app.use(Quasar, { ... })
 export default {
   plugins: {
-    Notify
+    Notify,
   },
   config: {
-    notify: { /* look at QuasarConfOptions from the API card */ }
-  }
+    notify: {
+      /* look at QuasarConfOptions from the API card */
+    },
+  },
 };

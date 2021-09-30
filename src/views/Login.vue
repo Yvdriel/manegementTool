@@ -12,7 +12,7 @@
         outlined
         type="email"
         label="Email"
-        :rules="[ val => val && val.length > 0 || 'Geen email']"
+        :rules="[(val) => (val && val.length > 0) || 'Geen email']"
       />
       <q-input
         class="q-my-md"
@@ -20,7 +20,7 @@
         outlined
         :type="isPwd ? 'password' : 'text'"
         label="Password"
-        :rules="[ val => val && val.length > 0 || 'Geen wachtwoord']"
+        :rules="[(val) => (val && val.length > 0) || 'Geen wachtwoord']"
       >
         <template v-slot:append>
           <q-icon
@@ -66,11 +66,11 @@ export default {
       isPwd: ref(true),
       email: ref(""),
       loginWrapper,
-      triggerNegative () {
+      triggerNegative() {
         $q.notify({
-          type: 'negative',
-          message: 'Verkeerde Wachtwoord of Email'
-        })
+          type: "negative",
+          message: "Verkeerd Wachtwoord of Email",
+        });
       },
     };
   },

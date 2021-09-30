@@ -1,11 +1,14 @@
 <template>
   <q-layout view="lhh Lpr lff">
-    <q-header v-if="isAuthenticated" class="bg-white text-black q-px-md q-py-md">
+    <q-header
+      v-if="isAuthenticated"
+      class="bg-white text-black q-px-md q-py-md"
+    >
       <q-toolbar>
-        <div class="row justify-between">
-          <q-toolbar-title class="col text-weight-bold">Hallo, <br> {{ fullname }}</q-toolbar-title>
-          <q-toolbar-title class="col-4 text-weight-bold"></q-toolbar-title>
-        </div>
+        <q-toolbar-title class="text-weight-bold"
+          >Hallo, <br />
+          {{ fullname }}</q-toolbar-title
+        >
       </q-toolbar>
     </q-header>
     <q-page-container>
@@ -13,18 +16,16 @@
     </q-page-container>
     <q-footer class="bg-white text-black">
       <q-toolbar>
-        <!--        <q-toolbar-title>-->
         <div class="text-caption" style="margin: auto">
           Copyright © 2021 - {{ new Date().getFullYear() }} Yoran van Driel
         </div>
-        <!--        </q-toolbar-title>-->
       </q-toolbar>
     </q-footer>
   </q-layout>
 </template>
 
 <script>
-import { ref } from "vue";
+import { computed, ref } from "vue";
 // import { useQuasar } from "quasar";
 import axios from "axios";
 import store from "./store";
@@ -38,19 +39,17 @@ export default {
     // const $q = useQuasar();
     // console.log($q.platform.is.desktop);
     return {
-      leftDrawerOpen: ref(false)
-    };
-  },
-  computed: {
-    isAuthenticated() {
-      return store.getters.isAuthenticated;
-    },
-    fullname() {
-      let firstname = store.getters.user.firstname;
-      let lastname = store.getters.user.lastname;
+      leftDrawerOpen: ref(false),
+      isAuthenticated: computed(() => {
+        return store.getters.isAuthenticated;
+      }),
+      fullname: computed(() => {
+        let firstname = store.getters.user.firstname;
+        let lastname = store.getters.user.lastname;
 
-      return firstname + " " + lastname;
-    }
+        return firstname + " " + lastname;
+      }),
+    };
   },
 
   created: function () {
