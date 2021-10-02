@@ -2,7 +2,7 @@ import { createRouter, createWebHistory } from "vue-router";
 import Home from "../views/Home.vue";
 import store from "../store/index";
 
-const noRequireAuth = (to, from, next) => {
+const requireAuth = (to, from, next) => {
   if (store.getters.isAuthenticated) {
     next();
     return;
@@ -10,7 +10,7 @@ const noRequireAuth = (to, from, next) => {
   next("/login");
 };
 
-const requireAuth = (to, from, next) => {
+const noRequireAuth = (to, from, next) => {
   if (!store.getters.isAuthenticated) {
     next();
     return;

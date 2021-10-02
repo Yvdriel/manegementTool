@@ -38,6 +38,8 @@ export default {
   setup() {
     // const $q = useQuasar();
     // console.log($q.platform.is.desktop);
+    store.dispatch("getShifts");
+
     return {
       leftDrawerOpen: ref(false),
       isAuthenticated: computed(() => {

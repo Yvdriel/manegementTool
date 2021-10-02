@@ -1,13 +1,18 @@
 import { createStore } from "vuex";
+// import createPersistedState from "vuex-persistedstate";
 import ApiService from "../plugins/axios";
+import { LocalStorage } from 'quasar'
 import axios from "axios";
+// import shifts from "../store/modules/shifts.js";
+import _ from "lodash";
 
-export default createStore({
-  state: {
+const store = createStore({
+  initialState: {
     token: localStorage.getItem("user-token") || "",
     user: JSON.parse(localStorage.getItem("user")) || {},
     state: "",
   },
+  state: LocalStorage.getItem("state") || "",
   mutations: {
     AUTH_REQUEST: (state) => {
       state.status = "loading";
@@ -27,8 +32,11 @@ export default createStore({
     AUTH_ERROR: (state) => {
       state.status = "error";
     },
-    setToken(state, token) {
+    setToken: (state, token) => {
       state.token = token;
+    },
+    setShifts: (state, shifts) => {
+      state.shifts = shifts;
     },
   },
   actions: {
@@ -50,8 +58,8 @@ export default createStore({
             console.log(resp.data);
             const token = resp.data.token;
             const user = resp.data.user;
-            localStorage.setItem("user-token", token); // store the token in localstorage
-            localStorage.setItem("user", JSON.stringify(user)); // store the user in localstorage
+            // localStorage.setItem("user-token", token); // store the token in localstorage
+            // localStorage.setItem("user", JSON.stringify(user)); // store the user in localstorage
             commit("AUTH_SUCCESS", {token, user});
             // you have your token, now log in your user :)
             axios.defaults.headers.common = {'Authorization': `Bearer ${token}`}
@@ -83,14 +91,34 @@ export default createStore({
           });
       });
     },
+    getShifts: ({ commit, state }) => {
+      console.log("HALLOOOOOO");
+      // eslint-disable-next-line no-unused-vars
+      ApiService()
+          .get("shifts")
+          .then((response) => {
+            if (!_.isEqual(response.data, state.shifts)) {
+              console.log(response.data);
+              console.log(state.shifts);
+              console.log("vers");
+              commit("setShifts", response.data);
+            }
+          });
+    },
   },
   getters: {
     isAuthenticated: (state) => !!state.token,
     authStatus: (state) => state.status,
     user: (state) => state.user,
-    token(state) {
-      return state.token;
-    },
+    shifts: (state) => state.shifts,
+    token: (state) => state.token,
   },
-  modules: {},
+  modules: {
+  },
 });
+
+export default store;
+
+store.subscribe((mutation, state) => {
+  LocalStorage.set("state", state);
+})
