@@ -6,13 +6,19 @@
       <q-separator></q-separator>
     </q-card-section>
     <q-list>
-      <q-item v-for="(obj, index) in lastThree()" :key="index" clickable v-ripple>
+      <q-item
+        v-for="(obj, index) in lastThree()"
+        :key="index"
+        clickable
+        v-ripple
+      >
         <q-item-section>
           <q-item-label caption lines="2">
             {{ obj.project.street }} {{ obj.project.house_number }}
-            {{ obj.project.house_number_extension }} {{ obj.project.postal_code }},
+            {{ obj.project.house_number_extension }}
+            {{ obj.project.postal_code }},
             {{ obj.project.city }}
-<!--            Prins Albertlaan 15, 2271 EK Voorburg-->
+            <!--            Prins Albertlaan 15, 2271 EK Voorburg-->
           </q-item-label>
         </q-item-section>
 
@@ -27,24 +33,23 @@
         </q-item-section>
       </q-item>
 
+      <!--      <q-item clickable v-ripple>-->
+      <!--        <q-item-section>-->
+      <!--          <q-item-label caption lines="2">-->
+      <!--            Prins Albertlaan 15, 2271 EK Voorburg-->
+      <!--          </q-item-label>-->
+      <!--        </q-item-section>-->
 
-<!--      <q-item clickable v-ripple>-->
-<!--        <q-item-section>-->
-<!--          <q-item-label caption lines="2">-->
-<!--            Prins Albertlaan 15, 2271 EK Voorburg-->
-<!--          </q-item-label>-->
-<!--        </q-item-section>-->
-
-<!--        <q-item-section side top>-->
-<!--          <q-item-label caption>-->
-<!--            <q-icon name="event" size="xs" />-->
-<!--            20 Sep 2021-->
-<!--            <q-space></q-space>-->
-<!--            <q-icon name="schedule" size="xs" />-->
-<!--            12:00 - 21:30-->
-<!--          </q-item-label>-->
-<!--        </q-item-section>-->
-<!--      </q-item>-->
+      <!--        <q-item-section side top>-->
+      <!--          <q-item-label caption>-->
+      <!--            <q-icon name="event" size="xs" />-->
+      <!--            20 Sep 2021-->
+      <!--            <q-space></q-space>-->
+      <!--            <q-icon name="schedule" size="xs" />-->
+      <!--            12:00 - 21:30-->
+      <!--          </q-item-label>-->
+      <!--        </q-item-section>-->
+      <!--      </q-item>-->
       <!--      <q-separator spaced inset />-->
 
       <!--      <q-item clickable v-ripple>-->
@@ -71,10 +76,10 @@
         <q-item-section>
           <q-btn
             push
-            no-caps
+            flat
             @click="changeTab()"
             color="primary"
-            label="Alle diensten bekijken"
+            label="Bekijken"
           />
         </q-item-section>
       </q-item>
@@ -83,7 +88,7 @@
 </template>
 
 <script>
-import {computed, ref} from "vue";
+import { computed, ref } from "vue";
 import store from "../store";
 
 export default {
@@ -119,7 +124,7 @@ export default {
           break;
         }
 
-        newShifts[key] = shifts[key]
+        newShifts[key] = shifts[key];
         iteration++;
       }
 

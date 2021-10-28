@@ -1,4 +1,12 @@
 <template>
+  <q-header class="bg-white text-black q-px-md q-pt-md">
+    <q-toolbar>
+      <q-toolbar-title class="text-weight-bold"
+        >Hallo, <br />
+        {{ fullname }}</q-toolbar-title
+      >
+    </q-toolbar>
+  </q-header>
   <q-page class="q-pa-lg q-gutter-md">
     <div class="q-mb-lg">
       <q-tabs
@@ -17,9 +25,14 @@
         </q-tab>
       </q-tabs>
       <q-separator />
-      <q-tab-panels v-model="tab" animated swipeable infinite
-                    transition-prev="fade"
-                    transition-next="fade">
+      <q-tab-panels
+        v-model="tab"
+        animated
+        swipeable
+        infinite
+        transition-prev="fade"
+        transition-next="fade"
+      >
         <q-tab-panel name="overview">
           <NextShift />
           <OpenShiftsCard :tab="tab" @update:tab="tab = $event" />
@@ -43,6 +56,7 @@ import Calendar from "../components/Calendar";
 import NextShift from "../components/NextShift";
 import WorkedHours from "../components/WorkedHours";
 import OpenShiftsCard from "../components/OpenShiftsCard";
+import store from "../store";
 
 export default {
   name: "Login",
@@ -68,6 +82,12 @@ export default {
       token,
       tab,
       visible,
+      fullname: computed(() => {
+        let firstname = store.getters.user.firstname;
+        let lastname = store.getters.user.lastname;
+
+        return firstname + " " + lastname;
+      }),
     };
   },
   watch: {

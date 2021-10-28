@@ -6,17 +6,15 @@ module.exports = {
     },
   },
   transpileDependencies: ["quasar"],
-  "configureWebpack": {
+  configureWebpack: {
     module: {
       rules: [
         {
           test: /\.jsx?$/,
-          loader: 'babel-loader',
+          loader: "babel-loader",
           exclude: /node_modules\/(?!(v-calendar)\/).*/,
-        }
-      ]
-    }
-  }
-
-
+        },
+      ],
+    },
+  },
 };
